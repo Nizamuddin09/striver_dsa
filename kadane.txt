@@ -1,0 +1,32 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        if (nums.length == 1 ) return nums[0];
+        int max=Integer.MIN_VALUE;
+        int cur=0;
+        int s=0;
+        int start,end=0;
+        for(int i=0;i<nums.length;i++){
+            cur+=nums[i];
+            if(max<cur){
+                max=cur;
+                start=s;
+                end=i;
+            }
+            if(cur<0){
+                cur=0;
+                s=i+1;
+            }
+        }
+        
+        return max;
+        
+    }
+}
+
+
+
+
+
+
+if curr_sum is negative (less than zero) dont carry forward
