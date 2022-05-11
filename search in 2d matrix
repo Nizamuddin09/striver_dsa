@@ -56,7 +56,7 @@ class Solution {
 //         return false;
         
         
-        * single binary search method , index formula intuition not derived *
+        * single binary search method , index formula intuition derived *
         int low=0;int high=m*n-1;
         while(low<=high){
             int mid=low+(high-low)/2;
