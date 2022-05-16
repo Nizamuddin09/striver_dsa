@@ -1,0 +1,87 @@
+class Solution {
+
+optimal two pointer 
+
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> ans=new ArrayList<List<Integer>>();
+        int n=nums.length;
+        Arrays.sort(nums);
+        
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int target2=target-nums[i]-nums[j];
+                int low=j+1;int high=n-1;
+                while(low<high){
+                  
+                    if(nums[low]+nums[high]==target2){
+                           List<Integer> res=new ArrayList<>();
+                         res.add(nums[i]);
+                         res.add(nums[j]);
+                         res.add(nums[low]);
+                         res.add(nums[high]);
+                        ans.add(res);
+                        
+                    while(low<high && nums[low]==res.get(2)){
+                        ++low;
+                    }
+                    while(low<high && nums[high]==res.get(3)){
+                        --high;
+                    }
+                        
+                    }
+                    else if(nums[low]+nums[high] > target2){
+                        high--;
+                    }
+                    else {
+                        low++;
+                    }
+                    
+                    
+                }
+                
+                while( j+1<n && nums[j+1]==nums[j]) ++j;
+            }
+            while(i+1<n && nums[i+1]==nums[i]) ++i;
+        }
+        
+        return ans;
+        
+        
+       brute force binary search 
+        
+//         Arrays.sort(nums);
+//         HashSet<List<Integer>> s=new HashSet<List<Integer>>();
+//          for(int i=0;i<nums.length;i++){
+//              for(int j=i+1;j<nums.length;j++){
+//                  for(int k=j+1;k<nums.length;k++){
+//                      int target2 = target-nums[i]-nums[j]-nums[k];
+//                      int low=k+1;int high=nums.length-1;
+                     
+//                      List<Integer> res=new ArrayList<Integer>();
+                     
+//                      while(low<high){
+//                         int mid=low+(high-low)/2;
+//                          if(nums[mid]==target2){
+//                              res.add(nums[i]);
+//                              res.add(nums[j]);
+//                              res.add(nums[k]);
+//                              res.add(nums[mid]);
+//                              s.add(res);
+//                          }
+//                          else if(nums[mid]>target2){
+//                              high=mid-1;
+//                          }
+//                          else{
+//                              low=mid+1;
+//                          }
+//                      }
+//                  }
+                 
+//              }
+//          }
+        
+//         List<List<Integer>> ans=new ArrayList<List<Integer>>(s);
+        
+//         return ans;
+    }
+}
