@@ -1,58 +1,37 @@
-class Solution {
-    public int lengthOfLongestSubstring(String s) {
-//  int maxans = 0;
-//         for (int i = 0; i < str.length(); i++) // outer loop for traversing the string
-//         {
-//             Set < Character > se = new HashSet < > ();
-//             for (int j = i; j < str.length(); j++) // nested loop for getting different 
-  
-//             {
-//                 if (se.contains(str.charAt(j))) // if element if found so mark it as ans 
-
-//                 {
-//                     maxans = Math.max(maxans, j - i);
-//                     break;
-//                 }
-//                 se.add(str.charAt(j));
-//                 maxans=Math.max(maxans,j-i+1);
-//             }
-//         }
-//         return maxans;
-        
-        // int left=0,right=0;
+class GfG
+{
+    int maxLen(int arr[], int n)
+    {
+        // Your code here
         // int ans=0;
-        // Set < Character > map = new HashSet < > ();
-        // while(right<s.length()){
-        //     if(!map.contains(s.charAt(right))){
-        //         ans=Math.max(ans,right-left+1);
-        //         map.add(s.charAt(right));
-        //         right++;
-        //     }
-        //     else{
-        //         while(map.contains(s.charAt(right))){
-        //             map.remove(s.charAt(left));
-        //             left++;
+        // for(int i=0;i<n;i++){
+        //     int sum=0;
+        //     for(int j=i;j<n;j++){
+        //         sum+=arr[j];
+        //         if(sum==0){
+        //             int curr=j-i+1;
+        //             ans=Math.max(ans,curr);
         //         }
         //     }
         // }
-        //        return ans;
-        
-        
-        int left=0;
-        int right=0;
+        // return ans;
+        HashMap<Integer,Integer> s=new HashMap<Integer,Integer>();
         int ans=0;
-        HashMap<Character,Integer> map=new HashMap<Character,Integer>(); 
-        while(right<s.length()){
-            if(map.containsKey(s.charAt(right))){
-                left=Math.max(map.get(s.charAt(right))+1,left);
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+            if(sum==0){
+                ans=i+1;
             }
-            ans=Math.max(right-left+1,ans);
-            map.put(s.charAt(right),right);
-            right++;
-            
+            else{
+            if(s.containsKey(sum)){
+                ans=Math.max(ans,i-s.get(sum));
+            }
+            else{
+                s.put(sum,i);
+            }
+            }
         }
-        
         return ans;
     }
-              
 }
