@@ -1,0 +1,23 @@
+public class Solution {
+    public int solve(int[] A, int B) {
+        HashMap<Integer,Integer> s=new HashMap<Integer,Integer>();
+        int cnt=0;
+        int xor=0;
+        for(int i=0;i<A.length;i++){
+            xor=xor^A[i];
+           if(xor==B){
+               cnt++;
+           }
+           if(s.containsKey(xor^B)){
+               cnt+=s.get(xor^B);
+           }
+           if(s.containsKey(xor)){
+               s.put(xor,s.get(xor)+1);
+           }
+           else{
+               s.put(xor,1);
+           }
+        }
+        return cnt;
+    }
+}
