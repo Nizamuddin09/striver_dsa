@@ -1,25 +1,63 @@
 /**
  * Definition for singly-linked list.
- * class ListNode {
+ * public class ListNode {
  *     int val;
  *     ListNode next;
- *     ListNode(int x) {
- *         val = x;
- *         next = null;
- *     }
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-public class Solution {
-    public boolean hasCycle(ListNode head) {
-        if(head == null) return false;
-        ListNode fast=head,slow=head;
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+//         ListNode node=head;
+//         int cnt=0;
+//         while(node!=null){
+//             node=node.next;
+//             cnt++;
+//         }
+//         ListNode dummy=new ListNode(-1);
+//         dummy.next=head;
+//         ListNode pointer=dummy;
+//         ListNode curr=head,prev=null,next=null;
+//         while(cnt>=k){
+//             for(int i=1;i<=k;i++){
+//                 next=curr.next;
+//                 curr.next=prev;
+//                 prev=curr;
+//                 curr=next;
+//             }
+//             ListNode tail=pointer.next;
+//             tail.next=curr;
+//             pointer.next=prev;
+//             pointer=tail;
+                
+//             cnt=cnt-k;
+//         }
+//         return dummy.next;
         
-        while(fast.next!=null && fast.next.next!=null){
-            fast=fast.next.next;
-            slow=slow.next;
-            if(slow==fast) return true;
+        
+        if(head==null || head.next==null || k==1) return head;
+        int cnt=k-1;
+        ListNode start=head,end=head;
+        while(cnt-->0){
+            end=end.next;
+            if(end==null){
+                return head;
+            }
         }
-        
-        return false;
+        ListNode newHead=reverseKGroup(end.next,k);
+        reverse(start,end);
+        start.next=newHead;
+        return end;
+    }
+    public void reverse(ListNode start,ListNode end){
+        ListNode curr=start,prev=null,next=null;
+        while(prev!=end){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
     }
 }
