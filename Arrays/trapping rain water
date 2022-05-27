@@ -1,0 +1,51 @@
+class Solution {
+    public int trap(int[] height) {
+    stack based
+//         Stack<Integer> s =new Stack<Integer>();
+//         int i=0;
+//         int water=0;
+//         while(i<height.length){
+//             if(s.isEmpty() || height[i]<=height[s.peek()]){
+//                 s.push(i++);
+//             }
+//             else{
+//                 int pre=s.pop();
+//                 if(!s.isEmpty()){
+//                     int min=Math.min(height[i],height[s.peek()]);
+//                     water+=(min-height[pre])*(i-s.peek()-1);
+//                 }
+//             }
+//         }
+        
+//         return water;
+        two pointer based
+        logic ####-
+        I think the solution is brilliant, but the author did a very poor job of explaining how it works.
+
+arr[left] or arr[right] always is a pointer to a value which is the max value found so far, searching from left and right.
+
+If arr[left] <= arr[right], this means that arr[right] is the max value found so far. This also means that maxLeft will be less than or equal to arr[right], which means that maxLeft will be bounding the addition to the answer(res variable, in this solution), since it has be less than or equal to arr[right] e, so we don't have to consider maxRight when adding to the counter.
+
+If arr[left] > arr[right] , this means at arr[left] is the max value found so far. Same thing applies as explained in the paragraph above.
+
+        
+        int left=0;
+        int right=height.length-1;
+        int leftmax=0;
+        int rightmax=0;
+        int ans=0;
+        while(left<right){
+            if(height[left]<height[right]){
+                if(height[left]>leftmax) leftmax=height[left];
+                else ans+=leftmax-height[left];
+                left++;
+            }
+            else{
+                if(height[right]>rightmax) rightmax=height[right];
+                else ans+=rightmax-height[right];
+                right--;
+            }
+        }
+       return ans; 
+    }
+}
