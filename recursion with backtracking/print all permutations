@@ -1,0 +1,45 @@
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        //boolean freq[]=new boolean[nums.length];
+        List<List<Integer>> res=new ArrayList<>();
+      //  helper(res,new ArrayList<Integer>(),freq,nums);
+        helper2(res,0,nums);
+        return res;
+    }
+    // public void helper(List<List<Integer>> res,ArrayList<Integer> ans,boolean freq[],int[] nums){
+    //     if(ans.size()==nums.length){
+    //         res.add(new ArrayList<>(ans));
+    //         return;
+    //     }
+    //     for(int i=0;i<nums.length;i++){
+    //         if(freq[i]==false){
+    //             ans.add(nums[i]);
+    //             freq[i]=true;
+    //             helper(res,ans,freq,nums);
+    //             ans.remove(ans.size()-1);
+    //             freq[i]=false;
+    //         }
+    //     }
+    // }
+    public void helper2(List<List<Integer>> res,int ind,int[] nums){
+        if(ind==nums.length){
+            ArrayList<Integer> ans=new ArrayList<Integer>();
+            for(int i=0;i<nums.length;i++){
+                ans.add(nums[i]);
+            }
+             res.add(ans);
+             return;
+        }
+        for(int i=ind;i<nums.length;i++){
+            swap(i,ind,nums);
+            helper2(res,ind+1,nums);
+            swap(i,ind,nums);
+        }
+        
+    }
+    public void swap(int i,int j,int[] nums){
+        int temp=nums[i];
+        nums[i]=nums[j];
+        nums[j]=temp;
+    }
+}
