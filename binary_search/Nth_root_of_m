@@ -1,0 +1,51 @@
+public class Solution {
+    public static double findNthRootOfM(int n, int m) {
+        // Initialize the variable 'low'.
+        double low = 0.000000;
+
+        // Initialize the variable 'high'.
+        double high = m;
+        double eps= 0.0000001;
+        while(high-low > eps){
+            double mid = (low + high) / 2; 
+              if(multiply(mid, n) < m) {
+                low = mid; 
+            }
+            else {
+                high = mid; 
+            }
+        }
+         
+         return Math.round(low * Math.pow(10, 6))
+                / Math.pow(10, 6);
+    }
+     private static double multiply(double m, int n) {
+       
+        // Initialize the variable 'ans'.
+        double ans = 1;
+
+        // Binary Exponentiation.
+        while (n > 0) {
+
+            // Checking if 'n' is odd.
+            if (n % 2 == 1) {
+
+                // Multiply 'm' to 'ans'.
+                ans *= m;
+
+                // Decrement 'n' by one.
+                n--;
+
+            }
+
+            // Assign 'm' the square of 'm'.
+            m *= m;
+
+            // Divide 'n' by 2.
+            n /= 2;
+
+        }
+
+        return ans;
+    }
+}
