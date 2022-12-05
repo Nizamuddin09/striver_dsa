@@ -1,0 +1,51 @@
+ pre order 
+ 
+ ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      ArrayList<Integer> result=new ArrayList<Integer>();
+      revPreOrder(root,result,0);
+      return result;
+    }
+    public void revPreOrder(Node root,ArrayList<Integer> result,int level){
+        if(root==null) return;
+        if(result.size()==level){
+            result.add(root.data);
+        }
+        revPreOrder(root.left,result,level+1);
+        revPreOrder(root.right,result,level+1);
+    }
+    
+    
+    for right
+    root.right first than left
+    
+    
+    level order===>
+    
+    
+     ArrayList<Integer> leftView(Node root)
+    {
+      // Your code here
+      ArrayList<Integer> result=new ArrayList<Integer>();
+      if(root==null) return result;
+      Queue<Node> q=new LinkedList();
+      q.add(root);
+      while(!q.isEmpty()){
+          int size=q.size();
+          for(int i=1;i<=size;i++){
+              Node temp=q.poll();
+              if(i==1){
+                  result.add(temp.data);
+              }
+              if(temp.left!=null){
+              q.add(temp.left);
+              }
+              
+              if(temp.right!=null){
+              q.add(temp.right);
+              }
+          }
+      }
+      return result;
+    }
