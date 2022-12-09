@@ -1,3 +1,11 @@
+class Pair{
+    Node node;
+    int hd;
+    Pair(Node root,int hd){
+        this.node=root;
+        this.hd=hd;
+    }
+}
 
 class Solution
 {
