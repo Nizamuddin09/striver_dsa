@@ -63,3 +63,42 @@ class Solution {
 
 Pre-order dfs
 
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+   //     Queue<Pair> q=new LinkedList<>();
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> m=new TreeMap<>();
+        List<List<Integer>> result=new ArrayList<>();
+       // q.add(new Pair(root,0,0));
+        helper(m,root,0,0);
+        for(TreeMap<Integer,PriorityQueue<Integer>> ys:m.values()){
+            result.add(new ArrayList<>());
+            for (PriorityQueue < Integer > nodes: ys.values()) {
+                while (!nodes.isEmpty()) {
+                    result.get(result.size() - 1).add(nodes.poll());
+                }
+            }
+        }
+        return result;
+    }
+    public void helper(TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> m,TreeNode root,int x,int y){
+         if(root==null) return;
+         
+            if (!m.containsKey(x)) {
+                m.put(x, new TreeMap < > ());
+            }
+            if (!m.get(x).containsKey(y)) {
+                m.get(x).put(y, new PriorityQueue < > ());
+            }
+            m.get(x).get(y).add(root.val);
+
+            // if (root.left != null) {
+            //     //q.offer(new Tuple(node.left, x - 1, y + 1));
+                
+            // }
+            helper(m,root.left,x-1,y+1);
+            // if (node.right != null) {
+            //     q.offer(new Tuple(node.right, x + 1, y + 1));
+            // }
+             helper(m,root.right,x+1,y+1);
+    }
+}
