@@ -14,7 +14,7 @@ class Solution {
         
         iterative
    //     TreeNode curr=root;
-    //while(root!=null){
+    //while(curr!=null){
         //     if(curr.val < p.val && curr.val<q.val){
         //         curr=curr.right;
         //     }
