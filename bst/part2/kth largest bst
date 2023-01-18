@@ -1,0 +1,36 @@
+
+class Solution
+{
+    // return the Kth largest element in the given BST rooted at 'root'
+    public int kthLargest(Node root,int K)
+    {
+        //Your code here
+        int ans=0,cnt=0;
+        int totalCount[]=new int[1];
+        inorder(root,totalCount);
+        int k=totalCount[0]-K+1;
+        Stack<Node> s=new Stack<>();
+        while(root!=null || !s.isEmpty()){
+            if(root!=null){
+                s.push(root);
+                root=root.left;
+            }
+            else{
+            root=s.pop();
+            cnt++;
+            if(cnt==k){
+                ans= root.data;
+            }
+            root=root.right;
+            }
+        }
+        return ans;
+        
+    }
+    public static void inorder(Node root,int cnt[]){
+        if(root==null) return;
+        inorder(root.left,cnt);
+        cnt[0]++;
+        inorder(root.right,cnt);
+    }
+}
