@@ -1,0 +1,44 @@
+
+class Solution{
+	static int spanningTree(int V, int E, int edges[][]){
+	    // Code Here. 
+	    PriorityQueue<Pair> q=new PriorityQueue<Pair>((x,y)->x.distance-y.distance);
+	    boolean vis[]=new boolean[V];
+	    q.add(new Pair(0,0));
+	    int sum=0;
+	    
+	    ArrayList<ArrayList<Pair>> adj=new ArrayList<ArrayList<Pair>>();
+	    for(int i=0;i<V;i++){
+	        adj.add(new ArrayList<Pair>());
+	    }
+	    for(int i=0;i<edges.length;i++){
+	        adj.get(edges[i][0]).add(new Pair(edges[i][2],edges[i][1]));
+	        adj.get(edges[i][1]).add(new Pair(edges[i][2],edges[i][0]));
+	    }
+	    
+	    while(!q.isEmpty()){
+	        Pair temp=q.poll();
+	        int edgeWeight = temp.distance;
+	        int node = temp.node;
+	        if(!vis[node]){
+	            vis[node]=true;
+	            sum+=edgeWeight;
+	            //add MST edges in a list here if asked in question using Parent property which should be also added in Pair Class
+	            for(Pair n:adj.get(node)){
+	                if(!vis[n.node]){
+	                    q.add(new Pair(n.distance,n.node));
+	                }
+	            }
+	        }
+	    }
+	    return sum;
+	}
+}
+class Pair{
+    int distance;
+    int node;
+    Pair(int distance,int node){
+        this.distance=distance;
+        this.node=node;
+    }
+}
