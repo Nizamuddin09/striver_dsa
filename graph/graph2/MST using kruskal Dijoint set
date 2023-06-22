@@ -1,0 +1,69 @@
+
+class Solution{
+	static int spanningTree(int V, int E, int edges[][]){
+	    // Code Here. 
+	   Disjoint ds=new Disjoint(V); 
+Arrays.sort(edges, (a, b) -> Integer.compare(a[2],b[2]));
+ int mst=0;
+ for(int i=0;i<E;i++){
+     int u=edges[i][0];
+     int v=edges[i][1];
+     int w=edges[i][2];
+     if(ds.findParent(u)!=ds.findParent(v)){
+         mst+=w;
+         ds.unionByRank(u,v);
+     }
+ }
+
+	    return mst;
+	    
+	}
+}
+class Disjoint{
+    int[] parent;
+    int[] rank;
+    int[] size;
+    Disjoint(int n){
+        this.parent=new int[n+1];
+        this.rank=new int[n+1];
+        this.size=new int[n+1];
+        Arrays.fill(this.rank,0);
+        Arrays.fill(this.size,1);
+        for(int i=0;i<=n;i++){
+            this.parent[i]=i;
+        }
+    }
+    void unionByRank(int u,int v){
+   int ulp_u = findParent(u);
+        int ulp_v = findParent(v);
+        if (ulp_u == ulp_v) return;
+        if (rank[ulp_u] < rank[ulp_v]) {
+            parent[ulp_u]= ulp_v;
+        } else if (rank[ulp_u] > rank[ulp_v]) {
+            parent[ulp_v]= ulp_u;
+        } else {
+            parent[ulp_v]= ulp_u;
+            int rankU = rank[ulp_u];
+            rank[ulp_u]= rankU + 1;
+        }
+    }
+        public void unionBySize(int u, int v) {
+        int ulp_u = findParent(u);
+        int ulp_v = findParent(v);
+        if (ulp_u == ulp_v) return;
+        if (size[ulp_u] < size[ulp_v]) {
+            parent[ulp_u]= ulp_v;
+            size[ulp_v]= size[ulp_v] + size[ulp_u];
+        } else {
+            parent[ulp_v]= ulp_u;
+            size[ulp_u]=size[ulp_u] + size[ulp_v];
+        }
+    }
+    int findParent(int node){
+        if(parent[node]==node){
+            return node;
+        }
+        parent[node]=findParent(parent[node]);
+        return parent[node];
+    }
+}
