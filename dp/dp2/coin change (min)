@@ -1,0 +1,77 @@
+recursion
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n=coins.length;
+        int dp[][]=new int[n][amount+1];
+        for(int[] rows:dp){
+            Arrays.fill(rows,-1);
+        }
+        int ans=f(n-1,amount,coins,dp);
+        return ans>=(int)1e9?-1:ans;
+    }
+    public int f(int index,int target,int[] coins,int[][]dp){
+        if(index==0){
+            if(target%coins[index]==0) return target/coins[index];
+            else return (int)1e9 ;
+        }
+        if(dp[index][target]!=-1) return dp[index][target];
+        int notTake=0+f(index-1,target,coins,dp);
+        int take=Integer.MAX_VALUE;
+        if(target>=coins[index]){
+            take=1+f(index,target-coins[index],coins,dp);
+        }
+        return dp[index][target]=Math.min(take,notTake);
+    }
+}
+
+tab
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n=coins.length;
+        int dp[][]=new int[n][amount+1];
+        for(int T=0;T<=amount;T++){
+            if(T%coins[0]==0) dp[0][T]=T/coins[0];
+            else dp[0][T]=(int)1e9 ;
+        }
+        for(int i=1;i<n;i++){
+            for(int t=0;t<=amount;t++){
+                 int notTake=0+dp[i-1][t];
+                    int take=Integer.MAX_VALUE;
+                    if(t>=coins[i]){
+                        take=1+dp[i][t-coins[i]];
+                    }
+              dp[i][t]=Math.min(take,notTake);
+            }
+        }
+        int ans=dp[n-1][amount];
+        return ans>=(int)1e9?-1:ans;
+    }
+}
+
+space
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n=coins.length;
+        int prev[]=new int[amount+1];
+        int cur[]=new int[amount+1];
+        for(int T=0;T<=amount;T++){
+            if(T%coins[0]==0) prev[T]=T/coins[0];
+            else prev[T]=(int)1e9 ;
+        }
+        for(int i=1;i<n;i++){
+            for(int t=0;t<=amount;t++){
+                 int notTake=0+prev[t];
+                    int take=Integer.MAX_VALUE;
+                    if(t>=coins[i]){
+                        take=1+cur[t-coins[i]];
+                    }
+              cur[t]=Math.min(take,notTake);
+            }
+            prev=(int[])cur.clone();
+        }
+        int ans=prev[amount];
+        return ans>=(int)1e9?-1:ans;
+    }
+}
