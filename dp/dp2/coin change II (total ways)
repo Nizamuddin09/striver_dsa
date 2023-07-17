@@ -1,0 +1,74 @@
+recursion
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n=coins.length;
+        int dp[][]=new int[n][amount+1];
+        for(int[] rows:dp){
+            Arrays.fill(rows,-1);
+        }
+        return f(n-1,amount,coins,dp);
+    }
+    public int f(int i,int t,int[] arr,int [][]dp){
+        if(i==0){
+          if(t%arr[0]==0) return 1;
+          return 0;
+        }
+        if(dp[i][t]!=-1) return dp[i][t];
+        int notTake=f(i-1,t,arr,dp);
+        int take=0;
+        if(arr[i]<=t){
+            take=f(i,t-arr[i],arr,dp);
+        }
+        return dp[i][t]=take+notTake;
+    }
+}
+
+tab
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n=coins.length;
+        int dp[][]=new int[n][amount+1];
+        for(int t=0;t<=amount;t++){
+              if(t%coins[0]==0) dp[0][t]=1;
+              else dp[0][t]=0;
+        }
+        for(int i=1;i<n;i++){
+            for(int t=0;t<=amount;t++){
+                int notTake=dp[i-1][t];
+        int take=0;
+        if(coins[i]<=t){
+            take=dp[i][t-coins[i]];
+        }
+            dp[i][t]=take+notTake;
+            }
+        }
+        return dp[n-1][amount];
+    }
+}
+
+space
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int n=coins.length;
+        int prev[]=new int[amount+1];
+        int cur[]=new int[amount+1];
+        for(int t=0;t<=amount;t++){
+              if(t%coins[0]==0) prev[t]=1;
+              else prev[t]=0;
+        }
+        for(int i=1;i<n;i++){
+            for(int t=0;t<=amount;t++){
+                int notTake=prev[t];
+                int take=0;
+                if(coins[i]<=t){
+                    take=cur[t-coins[i]];
+                }
+                cur[t]=take+notTake;
+            }
+            prev=(int[])cur.clone();
+        }
+        return prev[amount];
+    }
+}
