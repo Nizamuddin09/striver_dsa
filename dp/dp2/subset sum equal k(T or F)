@@ -1,3 +1,4 @@
+memoize
 public class Solution {
     public static boolean subsetSumToK(int n, int k, int arr[]){
         // Write your code here.
@@ -27,3 +28,166 @@ public class Solution {
     }
 
 }
+
+tab
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+      boolean[][]dp=new boolean[n][k+1];
+      for(int i=0;i<n;i++){
+          dp[i][0]=true;
+      }
+      for(int t=1;t<=k;t++){
+          dp[0][t]=(arr[0]==t);
+      }
+      for(int i=1;i<n;i++){
+          for(int t=1;t<=k;t++){
+               boolean notTake=dp[i-1][t];
+               boolean take=false;
+        if(arr[i]<=t){
+            take=dp[i-1][t-arr[i]];
+        }
+             dp[i][t]=take||notTake;
+          }
+      }
+     
+      return dp[n-1][k];
+    }
+}
+
+space
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+       boolean prev[]=new boolean[k+1];
+
+        prev[0] = true;
+
+        if(arr[0]<=k){
+        prev[arr[0]] = true;
+        }
+
+      for(int i=1;i<n;i++){
+            boolean cur[]=new boolean[k+1];
+            cur[0]=true;
+          for(int t=1;t<=k;t++){
+             boolean notTake=prev[t];
+             boolean take=false;
+             if(arr[i]<=t){
+             take=prev[t-arr[i]];
+            }
+             cur[t]=take||notTake;
+          }
+          prev=cur;
+      }
+     
+      return prev[k];
+    }
+}
+ 
+space 1 array
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+       boolean prev[]=new boolean[k+1];
+
+        prev[0] = true;
+
+        if(arr[0]<=k){
+        prev[arr[0]] = true;
+        }
+
+      for(int i=1;i<n;i++){
+            // boolean cur[]=new boolean[k+1];
+            // cur[0]=true;
+            prev[0]=true;
+          for(int t=k;t>=1;t--){
+             boolean notTake=prev[t];
+             boolean take=false;
+             if(arr[i]<=t){
+             take=prev[t-arr[i]];
+            }
+             prev[t]=take||notTake;
+          }
+        //   prev=cur;
+      }
+     
+      return prev[k];
+    }
+}
+
+my way space 2 array
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        boolean prev[]=new boolean[k+1];
+        boolean cur[]=new boolean[k+1];
+        
+        prev[0] = true;
+
+        for(int t=1;t<=k;t++){
+            prev[t]=(arr[0]==t);
+        }
+
+      for(int i=1;i<n;i++){
+          for(int t=0;t<=k;t++){
+             if(t==0){
+                cur[t]=true;
+                continue;
+             }
+             boolean notTake=prev[t];
+             boolean take=false;
+             if(arr[i]<=t){
+             take=prev[t-arr[i]];
+            }
+             cur[t]=take||notTake;
+          }
+          prev=(boolean [])cur.clone();
+      }
+     
+      return prev[k];
+    }
+}
+
+my way space 1 array
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        boolean prev[]=new boolean[k+1];
+        
+        prev[0] = true;
+
+        for(int t=1;t<=k;t++){
+            prev[t]=(arr[0]==t);
+        }
+
+      for(int i=1;i<n;i++){
+          for(int t=k;t>=0;t--){
+             if(t==0){
+                prev[t]=true;
+                continue;
+             }
+             boolean notTake=prev[t];
+             boolean take=false;
+             if(arr[i]<=t){
+             take=prev[t-arr[i]];
+            }
+             prev[t]=take||notTake;
+          }
+      }
+     
+      return prev[k];
+    }
+}
+
