@@ -1,0 +1,108 @@
+recursion
+
+
+// Java program to fill a subarray of given array
+import java.util.Arrays;
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		int[][] dp=new int[n][n+1];
+         for(int[] rows:dp){
+             Arrays.fill(rows,-1);
+         }
+		return f(n-1,n,price,dp);
+	}
+	public static int f(int index,int finalLength,int[] price,int[][]dp){
+		if(index==0){
+			return finalLength*price[0];
+		}
+		if(dp[index][finalLength]!=-1){
+			return dp[index][finalLength];
+		}
+		int notTake=f(index-1,finalLength,price,dp);
+		int take=Integer.MIN_VALUE;
+		int currentRodLength=index+1;
+		if(currentRodLength<=finalLength){
+			take=price[index]+f(index,finalLength-currentRodLength,price,dp);
+		}
+		return dp[index][finalLength]=Math.max(notTake,take);
+	}
+}
+
+tab
+
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		int[][] dp=new int[n][n+1];
+		for(int l=0;l<=n;l++){
+			dp[0][l]=l*price[0];
+		}
+		for(int index=1;index<n;index++){
+			for(int finalLength=0;finalLength<=n;finalLength++){
+				int notTake=dp[index-1][finalLength];
+				int take=Integer.MIN_VALUE;
+				int currentRodLength=index+1;
+				if(currentRodLength<=finalLength){
+					take=price[index]+dp[index][finalLength-currentRodLength];
+				}
+				dp[index][finalLength]=Math.max(notTake,take);
+			}
+		}
+
+		return dp[n-1][n];
+	}
+}
+
+space 2 array
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		int[] prev=new int[n+1];
+		int[] cur=new int[n+1];
+		for(int l=0;l<=n;l++){
+			prev[l]=l*price[0];
+		}
+		for(int index=1;index<n;index++){
+			for(int finalLength=0;finalLength<=n;finalLength++){
+				int notTake=prev[finalLength];
+				int take=Integer.MIN_VALUE;
+				int currentRodLength=index+1;
+				if(currentRodLength<=finalLength){
+					take=price[index]+cur[finalLength-currentRodLength];
+				}
+				cur[finalLength]=Math.max(notTake,take);
+			}
+			prev=(int[])cur.clone();
+		}
+
+		return prev[n];
+	}
+}
+
+space 1 array
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		int[] prev=new int[n+1];
+		for(int l=0;l<=n;l++){
+			prev[l]=l*price[0];
+		}
+		for(int index=1;index<n;index++){
+			for(int finalLength=0;finalLength<=n;finalLength++){
+				int notTake=prev[finalLength];
+				int take=Integer.MIN_VALUE;
+				int currentRodLength=index+1;
+				if(currentRodLength<=finalLength){
+					take=price[index]+prev[finalLength-currentRodLength];
+				}
+				prev[finalLength]=Math.max(notTake,take);
+			}
+		}
+
+		return prev[n];
+	}
+}
