@@ -1,0 +1,149 @@
+recursion
+
+//{ Driver Code Starts
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GfG { 
+    
+	public static void main (String[] args) throws IOException  {
+	    
+	    //reading input using BufferedReader class
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		//reading total testcases
+		int t = Integer.parseInt(br.readLine().trim());
+		while(t-->0){
+		    
+		    //reading number of eggs and floors
+		    String inputLine[] = br.readLine().trim().split(" ");
+		    
+		    int n = Integer.parseInt(inputLine[0]);
+		    int k = Integer.parseInt(inputLine[1]);
+		    
+		    //calling eggDrop() method of class
+		    //EggDrop
+		    System.out.println(new Solution().eggDrop(n, k));
+		}
+	}
+}
+
+
+
+// } Driver Code Ends
+
+
+class Solution 
+{
+    //Function to find minimum number of attempts needed in 
+    //order to find the critical floor.
+    static int eggDrop(int egg, int floor) 
+	{
+	    // Your code here
+	    int[][] dp=new int[egg+1][floor+1];
+	    for(int[] rows:dp){
+	        Arrays.fill(rows,-1);
+	    }
+	    return f(egg,floor,dp);
+	}
+	static int f(int egg,int floor,int[][] dp){
+	    if(floor==0) return 0;
+	    if(egg==0) return 0;
+	    
+	    if(floor==1) return 1;
+	    if(egg==1) return floor;
+	    
+	    if(dp[egg][floor]!=-1){
+	        return dp[egg][floor];
+	    }
+	    
+	    int ans=Integer.MAX_VALUE;
+	    for(int f=2;f<=floor;f++){
+	        int notBreakEgg=f(egg,floor-f);
+	        int breakEgg=f(egg-1,f-1);
+	        int max=1+Math.max(notBreakEgg,breakEgg);
+	        if(max<ans){
+	            ans=max;
+	        }
+	    }
+	    return dp[egg][floor]=ans;
+	}
+}
+
+tab
+
+
+class Solution 
+{
+    //Function to find minimum number of attempts needed in 
+    //order to find the critical floor.
+    static int eggDrop(int egg, int floor) 
+	{
+	    // Your code here
+	    int[][] dp=new int[egg+1][floor+1];
+        for(int i=0;i<=egg;i++){
+            dp[i][0]=0;
+            dp[i][1]=1;
+        }
+        for(int j=0;j<=floor;j++){
+            dp[0][j]=0;
+            dp[1][j]=j;
+        }
+        for(int i=2;i<=egg;i++){
+            for(int j=2;j<=floor;j++){
+                int ans=Integer.MAX_VALUE;
+                    for(int f=2;f<=j;f++){
+                    int notBreakEgg=dp[i][j-f];
+                    int breakEgg=dp[i-1][f-1];
+                    int max=1+Math.max(notBreakEgg,breakEgg);
+                    if(max<ans){
+                         ans=max;
+                    }
+        	      }
+        	      dp[i][j]=ans;
+            }
+        }
+        
+	    return dp[egg][floor];
+	}
+}
+
+space 2 array
+
+class Solution 
+{
+    //Function to find minimum number of attempts needed in 
+    //order to find the critical floor.
+    static int eggDrop(int egg, int floor) 
+	{
+	    // Your code here
+	    int[] prev=new int[floor+1];
+	    int[] cur=new int[floor+1];
+
+        for(int j=0;j<=floor;j++){
+            prev[j]=j;
+        }
+        for(int i=2;i<=egg;i++){
+            cur[0]=0;
+            cur[1]=1;
+            for(int j=2;j<=floor;j++){
+                int ans=Integer.MAX_VALUE;
+                    for(int f=2;f<=j;f++){
+                    int notBreakEgg=cur[j-f];
+                    int breakEgg=prev[f-1];
+                    int max=1+Math.max(notBreakEgg,breakEgg);
+                    if(max<ans){
+                         ans=max;
+                    }
+        	      }
+        	      cur[j]=ans;
+            }
+            prev=(int[])cur.clone();
+        }
+        
+	    return prev[floor];
+	}
+}
+
+
