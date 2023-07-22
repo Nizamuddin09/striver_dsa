@@ -1,3 +1,7 @@
+Note- use HashSet for contains to decrease time complexity 
+.contains set o(1)
+.conatins list o(n)
+
 recursion
 
 class Solution {
