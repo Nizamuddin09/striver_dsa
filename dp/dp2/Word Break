@@ -1,0 +1,43 @@
+recursion
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int []dp=new int[s.length()];
+        Arrays.fill(dp,-1);
+        return f(0,s,wordDict,dp)==1?true:false;
+    }
+    public int f(int index,String s,List<String> wordDict,int[] dp){
+      if(index==s.length()){
+          return 1;
+      }
+      if(dp[index]!=-1) return dp[index];
+      for(int k=index;k<s.length();k++){
+          if(wordDict.contains(s.substring(index,k+1))){
+              if(f(k+1,s,wordDict,dp)==1){
+                return dp[index]=1;
+              }
+          }
+      }
+      return dp[index]=0;
+    }
+}
+
+tab
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int []dp=new int[s.length()+1];
+        dp[s.length()]=1;
+        for(int i=s.length()-1;i>=0;i--){
+            for(int k=i;k<s.length();k++){
+            if(wordDict.contains(s.substring(i,k+1))){
+              if(dp[k+1]==1){
+                dp[i]=1;
+              }
+            }
+            }
+        }
+        return dp[0]==1?true:false;
+    }
+}
+
