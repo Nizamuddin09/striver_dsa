@@ -1,0 +1,98 @@
+memoize
+class Solution {
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+        int n=startTime.length;
+        int dp[]=new int[n];
+        Arrays.fill(dp,-1);
+        ArrayList<Job> arr=new ArrayList<Job>();
+        for(int i=0;i<n;i++){
+            arr.add(new Job(startTime[i],endTime[i],profit[i]));
+        }
+        Collections.sort(arr,(a,b)->a.start-b.start);
+        return f(0,arr,dp);
+    }
+    public int f(int index,ArrayList<Job> arr,int[]dp){
+        if(index>=arr.size()){
+            return 0;
+        }
+        if(dp[index]!=-1) return dp[index];
+        int next=nextJob(index+1,arr.get(index).end,arr);
+        int take=arr.get(index).profit+f(next,arr,dp);
+        int notTake=f(index+1,arr,dp);
+        return dp[index]=Math.max(take,notTake);
+    }
+    public int nextJob(int l,int end,ArrayList<Job> arr){
+        int r=arr.size()-1;
+        int result=arr.size();
+        while(l<=r){
+            int mid=l+(r-l)/2;
+            if(arr.get(mid).start>=end){
+                result=mid;
+                r=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return result;
+    }
+}
+class Job{
+    int start;
+    int end;
+    int profit;
+    Job(int s,int e,int p){
+        this.start=s;
+        this.end=e;
+        this.profit=p;
+    }
+}
+
+
+tab
+
+class Solution {
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+        int n=startTime.length;
+        int dp[]=new int[n+1];
+        dp[n]=0;
+        ArrayList<Job> arr=new ArrayList<Job>();
+        for(int i=0;i<n;i++){
+            arr.add(new Job(startTime[i],endTime[i],profit[i]));
+        }
+        Collections.sort(arr,(a,b)->a.start-b.start);
+
+        for(int i=n-1;i>=0;i--){
+            int next=nextJob(i+1,arr.get(i).end,arr);
+            int take=arr.get(i).profit+dp[next];
+            int notTake=dp[i+1];
+            dp[i]=Math.max(take,notTake);
+        }
+        return dp[0];
+    }
+    public int nextJob(int l,int end,ArrayList<Job> arr){
+        int r=arr.size()-1;
+        int result=arr.size();
+        while(l<=r){
+            int mid=l+(r-l)/2;
+            if(arr.get(mid).start>=end){
+                result=mid;
+                r=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return result;
+    }
+}
+class Job{
+    int start;
+    int end;
+    int profit;
+    Job(int s,int e,int p){
+        this.start=s;
+        this.end=e;
+        this.profit=p;
+    }
+}
