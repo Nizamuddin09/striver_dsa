@@ -1,0 +1,25 @@
+import java.util.*;
+
+public class Solution {
+
+	public static ArrayList<String> wordBreak(String s, ArrayList<String> dictionary) {
+		// Write your code here.
+		ArrayList<String> ans=new ArrayList<String>();
+		HashSet<String> dict=new HashSet<String>(); 
+		dict.addAll(dictionary);
+		helper(0,"",s,dict,ans);
+		return ans;
+	}
+	public static void helper(int ind,String word,String s, HashSet<String> dict,ArrayList<String> ans){
+		if(ind==s.length()){
+			ans.add(word);
+			return;
+		}
+		for(int i=ind;i<s.length();i++){
+			if(dict.contains(s.substring(ind,i+1))){
+				String append=word==""?s.substring(ind,i+1):word+" "+s.substring(ind,i+1);
+				helper(i+1,append,s,dict,ans);
+			}
+		}
+	}
+}
