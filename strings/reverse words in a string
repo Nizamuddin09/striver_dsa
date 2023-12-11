@@ -1,0 +1,44 @@
+brute
+
+class Solution {
+    public String reverseWords(String s) {
+        String[] words=s.trim().split("\\s+");
+        String ans="";
+        for(int i=words.length-1;i>0;i--){
+             ans+=words[i]+" ";
+        }
+        ans+=words[0];
+        return ans;
+    }
+}
+
+optimal
+
+class Solution {
+    public String reverseWords(String s) {
+        String ans="";
+        String temp="";
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch!=' '){
+                temp+=ch;
+            }
+            else if(ch==' ' && temp!=""){
+                if(ans.equals("")){
+                    ans+=temp;
+                }else{
+                    ans=temp+" "+ans;
+                }
+                temp="";
+            }
+        }
+        if(temp!=""){
+                if(ans.equals("")){
+                    ans+=temp;
+                }else{
+                    ans=temp+" "+ans;
+                }
+        }
+        return ans;
+    }
+}
