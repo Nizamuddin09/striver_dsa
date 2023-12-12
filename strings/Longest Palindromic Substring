@@ -1,0 +1,92 @@
+Brute
+
+class Solution {
+    public String longestPalindrome(String s) {
+        int start=0;
+        int end=0;
+        for(int i=0;i<s.length();i++){
+            for(int j=0;j<s.length();j++){
+                if(isPal(s,i,j)){
+                    if(j-i>end-start){
+                        start=i;
+                        end=j;
+                    }
+                }
+            }
+        }
+        return s.substring(start,end+1);
+    }
+    public boolean isPal(String s,int i,int j){
+        while(i<j){
+            if(s.charAt(i)==s.charAt(j)){
+                i++;
+                j--;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+Dp-
+
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s==null || s.length()<0) return "";
+        int start=0;
+        int end=0;
+        boolean dp[][]=new boolean[s.length()][s.length()];
+        for(int i=0;i<s.length();i++){
+            dp[i][i]=true;
+            start=i;
+            end=i;
+        }
+        for(int i=0;i<s.length()-1;i++){
+            if(s.charAt(i)==s.charAt(i+1)){
+                dp[i][i+1]=true;
+                start=i;
+                end=i+1;
+            }
+        }
+        for(int g=2;g<s.length();g++){
+            for(int i=0;i<s.length()-g;i++){
+                int j=i+g;
+                if(s.charAt(i)==s.charAt(j) && dp[i+1][j-1]){
+                    dp[i][j]=true;
+                    start=i;
+                    end=j;
+                }
+            }
+        }
+        return s.substring(start,end+1);
+    }
+}
+
+expand from center optimized-
+
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s==null || s.length()<0) return "";
+        int start=0;
+        int end=0;
+        for(int i=0;i<s.length();i++){
+            int len1=expand(i,i,s);
+            int len2=expand(i,i+1,s);
+            int len=Math.max(len1,len2);
+            if(len>end-start+1){
+                start=i-(len-1)/2;
+                end=i+len/2;
+            }
+        }
+        return s.substring(start,end+1);
+    }
+    public int expand(int left,int right,String s){
+        while(left>=0 && right<s.length() && s.charAt(left)==s.charAt(right)){
+            left--;
+            right++;
+        }
+        return right-left-1;
+    }
+}
