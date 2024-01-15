@@ -1,0 +1,104 @@
+class LFUCache {
+    final int capacity;
+    int minfrequency;
+    int currSize;
+    Map<Integer,DoublyLinkedList> frequency;
+    Map<Integer,Node> cache;
+    public LFUCache(int capacity) {
+        this.capacity=capacity;
+        this.currSize=0;
+        this.minfrequency=0;
+        this.frequency=new HashMap<>();
+        this.cache=new HashMap<>();
+    }
+    
+    public int get(int key) {
+        if(cache.containsKey(key)){
+            Node node=cache.get(key);
+            updateNode(node);
+            return node.value;
+        }else{
+            return -1;
+        }
+    }
+    
+    public void put(int key, int value) {
+        if(capacity==0) return;
+        if(cache.containsKey(key)){
+            Node node=cache.get(key);
+            node.value=value;
+            updateNode(node);
+        }
+        else{
+            currSize++;
+            if(currSize>capacity){
+                DoublyLinkedList list=frequency.get(minfrequency);
+                cache.remove(list.tail.prev.key);
+                list.removeNode(list.tail.prev);
+                currSize--;
+            }
+            minfrequency=1;
+            Node node=new Node(key,value);
+            DoublyLinkedList newList=frequency.getOrDefault(1,new DoublyLinkedList());
+            newList.addNode(node);
+            cache.put(key,node);
+            frequency.put(1,newList);
+        }
+    }
+    public void updateNode(Node node){
+        DoublyLinkedList list=frequency.get(node.frequency);
+        list.removeNode(node);
+        if(list.size==0 && minfrequency==node.frequency){
+            minfrequency++;
+        }
+        node.frequency++;
+        DoublyLinkedList newList=frequency.getOrDefault(node.frequency,new DoublyLinkedList());
+        newList.addNode(node);
+        frequency.put(node.frequency,newList);
+    }
+}
+class Node{
+    int key,value;
+    Node next,prev;
+    int frequency;
+    Node(int key,int value){
+        this.key=key;
+        this.value=value;
+        this.frequency=1;
+    }
+}
+class DoublyLinkedList{
+    Node head;
+    Node tail;
+    int size;
+
+    DoublyLinkedList(){
+        head=new Node(0,0);
+        tail=new Node(0,0);
+        head.next=tail;
+        tail.prev=head;
+        size=0;
+    }
+
+    public void addNode(Node node){
+        node.next=head.next;
+        head.next.prev=node;
+        head.next=node;  
+        node.prev=head;
+        size++;
+    }
+
+    public void removeNode(Node node){
+        node.prev.next=node.next;
+        node.next.prev=node.prev;
+        size--;
+    }
+
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
