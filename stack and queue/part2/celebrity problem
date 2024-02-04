@@ -1,0 +1,154 @@
+brute
+
+import java.util.* ;
+import java.io.*; 
+/*
+	This is signature of helper function 'knows'.
+	You should not implement it, or speculate about its implementation.
+
+	boolean knows(int A, int B); 
+	Function 'knows(A, B)' will returns "true" if the person having
+	id 'A' know the person having id 'B' in the party, "false" otherwise.
+	Use it as Runner.knows(A, B);
+*/
+	
+public class Solution {
+	public static int findCelebrity(int n) {
+        // Write your code here.
+		boolean status[]=new boolean[n];
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				   if(!status[i]){
+					   status[i]=Runner.knows(i,j);
+				   }
+			}
+		}
+		int falseCount=0;
+		int ans=0;
+		int trueCount=0;
+		for(int i=0;i<n;i++){
+			if(status[i]==false){
+				falseCount++;
+				ans=i;
+			}
+			if(status[i]==true){
+				trueCount++;
+			}
+		}
+		return trueCount==n-1 && falseCount==1?ans:-1;
+    }
+}
+
+optimal stack
+
+import java.util.* ;
+import java.io.*; 
+/*
+	This is signature of helper function 'knows'.
+	You should not implement it, or speculate about its implementation.
+
+	boolean knows(int A, int B); 
+	Function 'knows(A, B)' will returns "true" if the person having
+	id 'A' know the person having id 'B' in the party, "false" otherwise.
+	Use it as Runner.knows(A, B);
+*/
+	
+public class Solution {
+	public static int findCelebrity(int n) {
+        // Write your code here.
+		boolean status[]=new boolean[n];
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n;j++){
+				   if(i!=j && !status[i]){
+					   status[i]=Runner.knows(i,j);
+				   }
+			}
+		}
+		int falseCount=0;
+		int ans=0;
+		int trueCount=0;
+		for(int i=0;i<n;i++){
+			if(status[i]==false){
+				falseCount++;
+				ans=i;
+			}
+			if(status[i]==true){
+				trueCount++;
+			}
+		}
+		return trueCount==n-1 && falseCount==1?ans:-1;
+    }
+}
+
+optimal for
+
+import java.util.* ;
+import java.io.*; 
+/*
+	This is signature of helper function 'knows'.
+	You should not implement it, or speculate about its implementation.
+
+	boolean knows(int A, int B); 
+	Function 'knows(A, B)' will returns "true" if the person having
+	id 'A' know the person having id 'B' in the party, "false" otherwise.
+	Use it as Runner.knows(A, B);
+*/
+	
+public class Solution {
+	public static int findCelebrity(int n) {
+        // Write your code here.
+		Stack<Integer> s=new Stack<>();
+		for(int i=0;i<n;i++){
+			s.push(i);
+		}
+		while(s.size()>=2){
+			int i=s.pop();
+			int j=s.pop();
+			if(Runner.knows(i,j)){
+				s.push(j);
+			}
+			else{
+				s.push(i);
+			}
+		}
+		int c=s.pop();
+		for(int i=0;i<n;i++){
+			if(i!=c && (Runner.knows(c,i) || !Runner.knows(i,c))){
+				return -1;
+			}
+		}
+		return c;
+    }
+}
+
+optimal two pointer best
+
+import java.util.* ;
+import java.io.*; 
+/*
+	This is signature of helper function 'knows'.
+	You should not implement it, or speculate about its implementation.
+
+	boolean knows(int A, int B); 
+	Function 'knows(A, B)' will returns "true" if the person having
+	id 'A' know the person having id 'B' in the party, "false" otherwise.
+	Use it as Runner.knows(A, B);
+*/
+	
+public class Solution {
+	public static int findCelebrity(int n) {
+        // Write your code here.
+		int c=0;
+		for(int i=1;i<n;i++){
+			if(Runner.knows(c,i)){
+				c=i;
+			}
+		}
+		for(int i=0;i<n;i++){
+			if(i!=c && (Runner.knows(c,i) || !Runner.knows(i,c))){
+				return -1;
+			}
+		}
+		return c;
+    }
+}
