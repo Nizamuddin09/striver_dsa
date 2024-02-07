@@ -1,3 +1,5 @@
+just create a different Trie class instead of Solution
+
 import java.util.* ;
 import java.io.*; 
 
