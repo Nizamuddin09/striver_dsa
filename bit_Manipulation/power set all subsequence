@@ -1,0 +1,53 @@
+
+
+//User function Template for Java
+
+class Solution
+{
+    public List<String> AllPossibleStrings(String s)
+    {
+        // Code here
+        int n=s.length();
+        List<String> ans=new ArrayList<>();
+        for(int i=0;i<=(1<<n)-1;i++){
+            String a="";
+            for(int j=0;j<n;j++){
+                if((i & (1<<j))!=0){
+                    a=a+s.charAt(j);
+                }
+            }
+            if (a.length() > 0) {
+			ans.add(a);
+		     }
+        }    
+        Collections.sort(ans);
+        return ans;
+    }
+}
+
+
+
+
+//User function Template for Java
+
+class Solution
+{
+    public List<String> AllPossibleStrings(String s)
+    {
+        // Code here
+        List<String> ans=new ArrayList<>();
+        helper(0,s,"",ans);
+        Collections.sort(ans);
+        return ans;
+    }
+    public void helper(int index,String s,String current,List<String> ans){
+        if(index==s.length()){
+            if(current.length()>0){
+            ans.add(current);
+            }
+            return;
+        }
+        helper(index+1,s,current,ans);
+        helper(index+1,s,current+s.charAt(index),ans);
+    }
+}
