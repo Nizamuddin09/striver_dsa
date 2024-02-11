@@ -1,0 +1,78 @@
+class Solution {
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        Arrays.sort(nums);
+        int ans[]=new int[queries.length];
+        Offline[] oQ=new Offline[queries.length];
+        for(int i=0;i<queries.length;i++){
+            oQ[i]=new Offline(queries[i][1],queries[i][0],i);
+        }
+        Arrays.sort(oQ,(m,n)->m.a-n.a);
+        int index=0;
+        Trie t=new Trie();
+        for(int i=0;i<queries.length;i++){
+            while(index<nums.length && nums[index]<=oQ[i].a){
+                t.insert(nums[index++]);
+            }
+            if(index==0){
+                ans[oQ[i].k]=-1;
+            }
+            else{
+                ans[oQ[i].k]=t.getMax(oQ[i].x);
+            }
+        }
+        return ans;
+    }
+}
+class Offline{
+    int a;
+    int x;
+    int k;
+    Offline(int m,int n,int o){
+        a=m;
+        x=n;
+        k=o;
+    }
+}
+class Node{
+   Node links[]=new Node[2];
+   public boolean containsKey(int bit){
+       return links[bit]!=null;
+   }
+   public void put(int bit,Node node){
+       links[bit]=node;
+   }
+   public Node getNode(int bit){
+       return links[bit];
+   }
+}
+class Trie{
+    Node root;
+    Trie(){
+        root=new Node();
+    }
+    public void insert(int num){
+        Node node=root;
+        for(int i=31;i>=0;i--){
+            int bit=num>>i&1;
+            if(!node.containsKey(bit)){
+                node.put(bit,new Node());
+            }
+            node=node.getNode(bit);
+        }
+    }
+    public int getMax(int num){
+        Node node=root;
+        int max=0;
+        for(int i=31;i>=0;i--){
+            int bit=(num>>i)&1;
+            if(node.containsKey(1-bit)){
+                max=max|(1<<i);
+                node=node.getNode(1-bit);
+            }
+            else{
+                node=node.getNode(bit);
+            }
+        }
+        return max;
+    }
+}
