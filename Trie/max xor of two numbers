@@ -1,0 +1,64 @@
+class Solution {
+    public int findMaximumXOR(int[] nums) {
+        Trie t=new Trie();
+        for(int i=0;i<nums.length;i++){
+            t.insert(nums[i]);
+        }
+        int max=0;
+        for(int i=0;i<nums.length;i++){
+            max=Math.max(max,t.getMax(nums[i]));
+        }
+        return max;
+    }
+}
+
+class Node {
+    Node links[] = new Node[2];
+
+    public boolean containsKey(int bit) {
+        return links[bit]!=null;
+    }
+
+    public void put(int bit, Node node) {
+        links[bit] = node;
+    }
+
+    public Node getNode(int bit) {
+        return links[bit];
+    }
+}
+
+class Trie {
+    private Node root;
+
+    Trie() {
+        root = new Node();
+    }
+
+    public void insert(int num) {
+        Node node = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (!node.containsKey(bit)) {
+                node.put(bit, new Node());
+            }
+            node = node.getNode(bit);
+        }
+    }
+
+    public int getMax(int num) {
+        Node node = root;
+        int max=0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (node.containsKey(1-bit)) {
+                max=max|(1<<i);
+                node=node.getNode(1-bit);
+            }
+            else{
+                node=node.getNode(bit);
+            }
+        }
+        return max;
+    }
+}
