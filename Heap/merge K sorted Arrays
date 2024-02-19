@@ -1,0 +1,42 @@
+optimal min heap
+
+import java.util.* ;
+import java.io.*; 
+import java.util.ArrayList;
+
+public class Solution 
+{
+	public static ArrayList<Integer> mergeKSortedArrays(ArrayList<ArrayList<Integer>> kArrays, int k)
+	{
+		// Write your code here.
+		PriorityQueue<Node> pq=new PriorityQueue<>((a,b)->a.val-b.val);
+		for(int i=0;i<k;i++){
+			pq.add(new Node(kArrays.get(i).get(0),i,0));
+		}
+		ArrayList<Integer> ans=new ArrayList<Integer>();
+		while(!pq.isEmpty()){
+			Node curr=pq.peek();
+			pq.poll();
+			int val=curr.val;
+			int ind=curr.index;
+			int arrNo=curr.arrNo;
+			ans.add(val);
+			if(ind+1<kArrays.get(arrNo).size()){
+				ind++;
+				pq.add(new Node(kArrays.get(arrNo).get(ind),arrNo,ind));
+			}
+		}
+		return ans;
+
+	}
+}
+class Node{
+	int val;
+	int index;
+	int arrNo;
+	Node(int val,int arr,int index){
+		this.val=val;
+		this.arrNo=arr;
+		this.index=index;
+	}
+}
