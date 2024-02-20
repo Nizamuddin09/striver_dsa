@@ -1,0 +1,72 @@
+better
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        PriorityQueue<Node> pq=new PriorityQueue<>((a,b)->a.count-b.count);
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int count=1;
+            if(map.containsKey(nums[i])){
+                count=map.get(nums[i])+1;
+                map.put(nums[i],count);    
+            }else{
+                map.put(nums[i],count);              
+            }
+        }
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            pq.add(new Node(entry.getKey(),entry.getValue()));
+            if(pq.size()>k){
+                pq.poll();
+            }
+        }
+        int ans[]=new int[k];
+        int ind=0;
+        for(int i=0;i<k;i++){
+            ans[ind++]=pq.poll().val;
+        }
+    return ans;
+    }
+}
+class Node{
+    int val;
+    int count;
+    Node(int val,int count){
+        this.val=val;
+        this.count=count;
+    }
+}
+
+optimal
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        ArrayList<ArrayList<Integer>> freq=new ArrayList<>();
+        for(int i=0;i<=nums.length;i++){
+            freq.add(new ArrayList<>());
+        }
+        HashMap<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            int count=1;
+            if(map.containsKey(nums[i])){
+                count=map.get(nums[i])+1;
+                map.put(nums[i],count);    
+            }else{
+                map.put(nums[i],count);              
+            }
+        }
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            freq.get(entry.getValue()).add(entry.getKey());
+        }
+        int ans[]=new int[k];
+        int ind=0;
+        for(int i=freq.size()-1;i>=0;i--){
+            for(int j=0;j<freq.get(i).size();j++){
+                ans[ind++]=freq.get(i).get(j);
+            }
+            if(ind==k){
+                break;
+            }
+        }
+        return ans;
+    }
+}
