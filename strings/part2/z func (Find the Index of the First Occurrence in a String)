@@ -1,0 +1,92 @@
+simple 
+class Solution {
+    public int strStr(String haystack, String needle) {
+        // empty needle appears everywhere, first appears at 0 index
+        if (needle.length() == 0)
+            return 0;
+        if (haystack.length() == 0)
+            return -1;
+        
+        
+        for (int i = 0; i < haystack.length(); i++) {
+            // no enough places for needle after i
+            if (i + needle.length() > haystack.length()) break;
+            
+            for (int j = 0; j < needle.length(); j++) {
+                if (haystack.charAt(i+j) != needle.charAt(j))
+                    break;
+                if (j == needle.length()-1)
+                    return i;
+            }
+        }
+        
+        return -1;
+    }
+}
+fast 
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(haystack.contains(needle)){
+            return haystack.indexOf(needle);
+        }
+    return -1;
+    }
+}
+
+z function
+class Solution {
+    public int strStr(String haystack, String needle) {
+        List<Integer> ans=new ArrayList<>();
+        ans=zFunc(haystack,needle);
+        return ans.isEmpty()?-1:ans.get(0);
+    }
+    public List<Integer> zFunc(String text,String pattern){
+        int n=text.length();
+        int m=pattern.length();
+        List<Integer> ans=new ArrayList<>();
+        char[] combine=new char[n+m+1];
+        int ind=0;
+        for(int i=0;i<m;i++){
+            combine[ind++]=pattern.charAt(i);
+        }
+        combine[ind++]='$';
+        for(int i=0;i<n;i++){
+            combine[ind++]=text.charAt(i);
+        }
+        int[] z=calcZ(combine);
+        for(int i=0;i<m+n+1;i++){
+            if(z[i]==m){
+                ans.add(i-m-1);
+            }
+        }
+        return ans;
+    }
+    private int[] calcZ(char[] s){
+        int z[]=new int[s.length];
+        int left=0,right=0;
+        for(int k=1;k<z.length;k++){
+            if(k>right){                          //outside box
+                left=right=k;
+                while(right<s.length && s[right]==s[right-left]){      //add new chars
+                    right++;
+                }
+                z[k]=right-left;
+                right--;                                   // minus as this one did not match
+            }
+            else{
+                int k1=k-left;                     // checking previous value in pattern
+                if(z[k1]<right-k+1){               // checking if it will exceed or collide right boundary with non zero value, hence more elements can join
+                    z[k]=z[k1];
+                }else{                                //exceeding boundary then calculate new by checking more chars
+                    left=k;
+                    while(right<s.length && s[right]==s[right-left]){      //add new chars
+                    right++;
+                    }
+                    z[k]=right-left;
+                    right--;
+                }
+            }
+        }
+        return z;
+    }
+}
