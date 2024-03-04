@@ -1,0 +1,134 @@
+brute o-n2 TLE
+
+public class Solution {
+    public int solve(String A) {
+        int res=0;
+        for(int i=A.length()-1;i>=0;i--){
+            if(isPal(A)){
+                return res;
+            }
+            else{
+                A=A.substring(0,i);
+                res++;
+            }
+        }
+        return res;
+    }
+    public boolean isPal(String s){
+        int i=0;
+        int j=s.length()-1;
+        while(i<j){
+            if(s.charAt(i)!=s.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
+
+KMP - o-n
+
+public class Solution {
+    public int solve(String A) {
+        String rev=new StringBuilder(A).reverse().toString();
+        String concat=A+'$'+rev;
+        int lps[]=new int[concat.length()];
+        computeLps(lps,concat,concat.length());
+        return A.length()-lps[concat.length()-1];
+    }
+    public void computeLps(int[] lps,String pattern, int m){
+        lps[0]=0;
+        int j=0;
+        int i=1;
+        while(i<m){
+            if(pattern.charAt(i)==pattern.charAt(j)){
+                lps[i]=j+1;
+                i++;
+                j++;
+            }
+            else{
+                if(j!=0){
+                    j=lps[j-1];
+                }
+                else{
+                    lps[i]=0;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+Z function- o-n
+
+public class Solution {
+    public int solve(String A) {
+        String rev=new StringBuilder(A).reverse().toString();
+        String concat=A+'$'+rev;
+        int z[]=calcZ(concat.toCharArray());
+        int max=0;
+        for(int i=0;i<z.length;i++){
+            if(z[i]>max && z[i]+i==concat.length()){
+                max=z[i];
+            }
+        }
+        return A.length()-max;
+    }
+    private int[] calcZ(char[] s){
+        int z[]=new int[s.length];
+        int left=0,right=0;
+        for(int k=1;k<z.length;k++){
+            if(k>right){                          //outside box
+                left=right=k;
+                while(right<s.length && s[right]==s[right-left]){      //add new chars
+                    right++;
+                }
+                z[k]=right-left;
+                right--;                                   // minus as this one did not match
+            }
+            else{
+                int k1=k-left;                     // checking previous value in pattern
+                if(z[k1]<right-k+1){               // checking if it will exceed or collide right boundary with non zero value, hence more elements can join
+                    z[k]=z[k1];
+                }else{                                //exceeding boundary then calculate new by checking more chars
+                    left=k;
+                    while(right<s.length && s[right]==s[right-left]){      //add new chars
+                    right++;
+                    }
+                    z[k]=right-left;
+                    right--;
+                }
+            }
+        }
+        return z;
+    }
+}
+
+Two pointers TLE
+
+public class Solution {
+    public int solve(String A) {
+        int i=0;
+        int j=A.length()-1;
+        int res=0;
+        while(i<j){
+            if(A.charAt(i)==A.charAt(j)){
+                i++;
+                j--;
+            }
+            else{
+                res++;
+                i=0;
+                j=A.length()-res-1;
+            }
+        }
+        return res;
+    }
+}
+
+
+
+
+
