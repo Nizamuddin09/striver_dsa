@@ -1,0 +1,47 @@
+recursive
+
+class Solution {
+    public String countAndSay(int n) {
+        if(n==1) return "1";
+        String say=countAndSay(n-1);
+        String res="";
+        int count=1;
+        for(int i=1;i<say.length();i++){
+            if(say.charAt(i-1)==say.charAt(i)){
+                count++;
+            }
+            else{
+                res+=String.valueOf(count)+String.valueOf(say.charAt(i-1));
+                count=1;
+            }
+        }
+        res+=String.valueOf(count)+say.charAt(say.length()-1);
+        return res;
+    }
+}
+
+iterative
+
+class Solution {
+    public String countAndSay(int n) {
+        if(n==1) return "1";
+        if(n==2) return "11";
+        String s="11";
+        for(int i=3;i<=n;i++){
+            String t="";
+            s=s+'$';
+            int cnt=1;
+            for(int j=1;j<s.length();j++){
+                if(s.charAt(j)==s.charAt(j-1)){
+                    cnt++;
+                }
+                else{
+                    t+=String.valueOf(cnt)+s.charAt(j-1);
+                    cnt=1;
+                }
+            }
+            s=t;
+        }
+        return s;
+    }
+}
