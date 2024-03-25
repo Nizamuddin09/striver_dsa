@@ -1,0 +1,80 @@
+brute 
+
+
+
+
+import java.util.*;
+
+public class tUf {
+    public static int singleNonDuplicate(ArrayList<Integer> arr) {
+        int n = arr.size(); // Size of the array.
+        if (n == 1)
+            return arr.get(0);
+
+        for (int i = 0; i < n; i++) {
+            // Check for first index:
+            if (i == 0) {
+                if (!arr.get(i).equals(arr.get(i + 1)))
+                    return arr.get(i);
+            }
+            // Check for last index:
+            else if (i == n - 1) {
+                if (!arr.get(i).equals(arr.get(i - 1)))
+                    return arr.get(i);
+            } else {
+                if (!arr.get(i).equals(arr.get(i - 1)) && !arr.get(i).equals(arr.get(i + 1)))
+                    return arr.get(i);
+            }
+        }
+
+        // Dummy return statement:
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Integer> arr =
+            new ArrayList<>(Arrays.asList(1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6));
+        int ans = singleNonDuplicate(arr);
+        System.out.println("The single element is: " + ans);
+    }
+}
+
+
+Xor brute
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int ans=0;
+        for(int i=0;i<nums.length;i++){
+            ans=ans^nums[i];
+        }
+        return ans;
+    }
+}
+
+optimal binary search
+
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+       if(nums.length==1) return nums[0];
+       int n=nums.length;
+       if(nums[0]!=nums[1]) return nums[0];
+       if(nums[n-1]!=nums[n-2]) return nums[n-1];
+       int low=1;
+       int high=n-2;
+       while(low<=high){
+        int mid=low+(high-low)/2;
+        if(nums[mid]!=nums[mid-1] && nums[mid]!=nums[mid+1]){
+            return nums[mid];
+        }
+        //left side
+        else if(mid%2==0 && nums[mid]==nums[mid+1] || mid%2!=0 && nums[mid]==nums[mid-1]){
+            low=mid+1;
+        }
+        else {
+            high=mid-1;
+        }            
+       }
+       return -1;
+    }
+}
