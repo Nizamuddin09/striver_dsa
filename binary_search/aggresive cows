@@ -1,0 +1,32 @@
+import java.util.*;
+public class Solution {
+    public static int aggressiveCows(int []stall, int cows) {
+        //    Write your code here.
+        Arrays.sort(stall);
+        int n=stall.length;
+        		int low=1;int high=stall[n-1]-stall[0];
+		while(low<=high){
+			int mid=(low+high)>>1;
+			if(isPossible(mid,stall,n,cows)){
+				low=mid+1;
+			}else{
+				high=mid-1;
+			}
+		}
+		return high;
+    }
+    	public static boolean isPossible(int min,int[] stall,int n, int cows){
+		int last=stall[0];
+		int cnt=1;
+		for(int i=1;i<n;i++){
+			if(stall[i]-last>=min){
+				cnt++;
+				last=stall[i];
+			}
+			if(cnt>=cows){
+				return true;
+			}
+		}
+		return false;
+	}
+}
