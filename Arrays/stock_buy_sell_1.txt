@@ -1,6 +1,21 @@
 class Solution {
     public int maxProfit(int[] prices) {
         int profit=0;
+        int minBuyingCost=prices[0];
+        for(int i=1;i<prices.length;i++){
+            if(prices[i]<minBuyingCost){
+                minBuyingCost=prices[i];
+            }else{
+                profit=Math.max(profit,prices[i]-minBuyingCost);
+            }
+        }
+        return profit;
+    }
+}
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profit=0;
         int min=prices[0];
         for(int i=1;i<prices.length;i++){
             if(prices[i]<min){
