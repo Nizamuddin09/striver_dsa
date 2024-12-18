@@ -1,3 +1,61 @@
+more intuitive methods
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int totalSum=Integer.MIN_VALUE;
+        int currSum=0;
+        int start=0,end=0;
+        for(int i=0;i<nums.length;i++){
+            currSum=currSum+nums[i];
+            if(currSum>totalSum){a
+                totalSum=currSum;
+                end=i;
+                System.out.println(start+","+end);
+            }
+            if(currSum<0){
+                currSum=0;
+                start=i+1;
+            }
+        }
+        return totalSum;
+    }
+}
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int totalSum=nums[0];
+        int currSum=nums[0];
+        int start=0,end=0;
+        for(int i=1;i<nums.length;i++){
+            currSum=Math.max(nums[i],currSum+nums[i]);
+            totalSum=Math.max(currSum,totalSum);
+        }
+        return totalSum;
+    }
+}
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int totalSum=nums[0];
+        int currSum=nums[0];
+        int start=0,end=0;
+        for(int i=1;i<nums.length;i++){
+            currSum=Math.max(nums[i],currSum+nums[i]);
+            if(currSum>totalSum){
+                totalSum=currSum;
+                end=i;
+                System.out.println(start+","+end);
+            }
+            if(currSum<0){
+                currSum=0;
+                start=i+1;
+            }
+        }
+        return totalSum;
+    }
+}
+
+
 class Solution {
     public int maxSubArray(int[] nums) {
         if(nums == null || nums.length == 0) return 0;
