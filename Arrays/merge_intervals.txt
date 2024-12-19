@@ -1,3 +1,36 @@
+more intuitive
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
+        int start=intervals[0][0];
+        int end=intervals[0][1];
+        List<List<Integer>> ans=new ArrayList<>();
+        for(int i=1;i<intervals.length;i++){
+            if(intervals[i][0]<=end){
+                end=Math.max(end,intervals[i][1]);
+            }else{
+                List<Integer> res=new ArrayList<>();
+                res.add(start);
+                res.add(end);
+                start=intervals[i][0];
+                end=intervals[i][1];
+                ans.add(res);
+            }
+        }
+        List<Integer> res=new ArrayList<>();
+        res.add(start);
+        res.add(end);
+        ans.add(res);
+        // int[][] array = ans.stream()
+        //             .map(innerList -> innerList.stream().mapToInt(Integer::intValue).toArray())
+        //             .toArray(size -> new int[size][]);
+                int[][] array = ans.stream()
+                   .map(innerList -> innerList.stream().mapToInt(Integer::intValue).toArray())
+                   .toArray(int[][]::new);
+
+        return array;
+    }
+}
 class Solution {
     public int[][] merge(int[][] intervals) {
         List<int []> res = new ArrayList<>();
