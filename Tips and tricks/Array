@@ -1,0 +1,20 @@
+
+-- ways to convert List<List<integer>> to int[][]
+ int[][] array = ans.stream()
+                   .map(innerList -> innerList.stream().mapToInt(Integer::intValue).toArray())
+                   .toArray(int[][]::new);             // ::new calculates dynamically innerlist size and helps to create array
+
+// .stream converts it into stream of data to make the operations and pipeline operations easy on them such as map ,filter etc 
+
+    // int[][] array = ans.stream()
+        //             .map(innerList -> innerList.stream().mapToInt(Integer::intValue).toArray())
+        //             .toArray(size -> new int[size][]);   // creates new array of specified list size ans.size()
+
+-- ways to convert List<int[]> to int[][]
+
+res.toArray(new int[0][])      // new int[0] specifies to create array based on inner list size
+
+-- sort int[][] based on 0th index
+
+     Arrays.sort(intervals,(a,b)->a[0]-b[0]); the second parameter is lambda function
+
