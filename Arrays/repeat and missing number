@@ -1,0 +1,22 @@
+public class Solution {
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int[] repeatedNumber(final int[] A) {
+        long n=A.length;
+        long sumOfN=(n*(n+1))/2;
+        long sumOfSquare=(n*(n+1)*(2*n+1))/6;
+        long currSum=0;
+        long currSumSquare=0;
+        for(int i=0;i<A.length;i++){
+            currSum=currSum+A[i];
+            currSumSquare+=(long)A[i]*(long)A[i];
+        }
+        long val1=sumOfN-currSum; //y-x
+        long val2=sumOfSquare-currSumSquare; //y2-x2
+        
+        long val3=val2/val1; //y+x
+        
+        long missing=(val1+val3)/2;
+        long repeat=missing-val1;
+        return new int[]{(int)repeat,(int)missing};
+    }
+}
