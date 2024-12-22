@@ -1,0 +1,132 @@
+In Java, primitive type conversions occur when values of one primitive type are converted to another. These conversions can be categorized into **widening (implicit)** and **narrowing (explicit)** conversions. Below are the details of all types of conversions and methods involved:
+
+---
+
+## 1. **Widening (Implicit) Conversion**
+- A smaller data type is converted to a larger data type automatically.
+- No data loss occurs.
+- **Applicable Types**:  
+  `byte → short → int → long → float → double`  
+  `char → int → long → float → double`
+
+### Example:
+```java
+int num = 100;
+double d = num; // Implicitly converts int to double
+```
+
+**Key Points to Remember:**
+- Safe as it does not involve data loss.
+- Automatically handled by Java without explicit casting.
+
+---
+
+## 2. **Narrowing (Explicit) Conversion**
+- A larger data type is converted to a smaller data type manually using casting.
+- There is a risk of **data loss** or **truncation**.
+- **Applicable Types**:  
+  `double → float → long → int → short → byte`  
+  `char → byte/short`
+
+### Example:
+```java
+double d = 100.04;
+int num = (int) d; // Explicitly cast double to int, truncates decimal part
+```
+
+**Key Points to Remember:**
+- Use explicit casting `(type)` to avoid compilation errors.
+- May lead to unexpected results if the value exceeds the range of the target type.
+
+---
+
+## 3. **Conversion Between Primitive Types and Strings**
+Java provides utility methods to convert primitives to `String` and vice versa.
+
+### (a) **Primitive to String**
+- **Method 1**: `String.valueOf()`
+```java
+int num = 100;
+String str = String.valueOf(num); // Returns "100"
+```
+
+- **Method 2**: Concatenation (`+`)
+```java
+int num = 100;
+String str = num + ""; // Returns "100"
+```
+
+### (b) **String to Primitive**
+- **Method**: `Wrapper.parse<Type>()` or `Wrapper.valueOf()`
+```java
+String str = "100";
+int num = Integer.parseInt(str); // Converts String to int
+float f = Float.parseFloat(str); // Converts String to float
+```
+
+**Tips:**
+- `parse<Type>()` returns the primitive, whereas `valueOf()` returns a wrapper object.
+- Ensure the string contains a valid number; otherwise, it throws a `NumberFormatException`.
+
+---
+
+## 4. **Boxing and Unboxing**
+These conversions involve primitive types and their corresponding wrapper classes (e.g., `int` ↔ `Integer`).
+
+### (a) **Boxing (Primitive to Wrapper)**:
+```java
+int num = 10;
+Integer wrapped = num; // Auto-boxing
+```
+
+### (b) **Unboxing (Wrapper to Primitive)**:
+```java
+Integer wrapped = 20;
+int num = wrapped; // Auto-unboxing
+```
+
+---
+
+## 5. **Boolean Conversions**
+- No widening or narrowing for `boolean`.
+- Conversion to/from `String` is done via:
+  - `Boolean.parseBoolean(String)` for string to `boolean`.
+  - `String.valueOf(boolean)` for boolean to string.
+
+---
+
+## 6. **Casting Between char and Numeric Types**
+- `char` can be implicitly converted to `int`, `long`, `float`, or `double`.
+- Explicit casting is needed for other conversions.
+
+### Example:
+```java
+char c = 'A';
+int ascii = c; // Implicit conversion, ASCII value is stored
+char ch = (char) 65; // Converts int to char
+```
+
+---
+
+## Summary Table of Conversions:
+| From/To     | Methods                                                                 |
+|-------------|-------------------------------------------------------------------------|
+| Widening    | Implicit, no need for special methods.                                  |
+| Narrowing   | Explicit casting `(type)`.                                              |
+| To String   | `String.valueOf()`, concatenation `+`.                                  |
+| From String | `Wrapper.parse<Type>()`, `Wrapper.valueOf()`.                           |
+| Boxing      | Auto-boxing (Primitive → Wrapper).                                      |
+| Unboxing    | Auto-unboxing (Wrapper → Primitive).                                    |
+| Boolean     | `Boolean.parseBoolean()`, `String.valueOf(boolean)`.                    |
+| char ↔ int  | Implicit (char to int); Explicit `(char)` for int to char.              |
+
+---
+
+## Tips to Remember
+1. **Widening is safe and automatic**, while narrowing requires explicit casting.
+2. **String conversions** always rely on utility methods like `parse<Type>()`.
+3. For **Boxing/Unboxing**, rely on Java's auto-conversion since Java 5+.
+4. Be cautious with **narrowing conversions** to avoid truncation or unexpected results.
+5. Practice ASCII conversions for `char` to numeric types to understand its implications. 
+
+Let me know if you'd like specific examples or further details on any topic!
