@@ -1,5 +1,29 @@
 class Solution {
     public double myPow(double x, int n) {
+        boolean negative=false;
+        long nn=n;
+        if(nn<0){
+            negative=true;
+            nn=-1*nn;
+        }
+        double ans=calc(x,nn);
+        return negative?1/ans:ans;
+    }
+    public double calc(double x,long n){
+        if(n==0){
+            return 1;
+        }
+        else if(n%2==0){
+            return calc(x*x,n/2);
+        }
+        else{
+            return x*calc(x,n-1);
+        }
+    }
+}
+
+class Solution {
+    public double myPow(double x, int n) {
        double ans = 1.0;
         long nn = n;
         if(nn < 0) nn = -1*nn;
