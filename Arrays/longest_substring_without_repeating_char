@@ -1,3 +1,25 @@
+more intuitive optimal 
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s.length()==0) return 0;
+        int ans=1;
+        HashMap<Character,Integer> map=new HashMap<>();
+        int left=0;
+        int right=0;
+        while(right<s.length()){
+            if(map.containsKey(s.charAt(right)) && map.get(s.charAt(right))>=left){
+                left=map.get(s.charAt(right))+1;
+            }
+            ans=Math.max(ans,right-left+1);
+            map.put(s.charAt(right),right);
+            right++;
+        }
+        return ans;
+    }
+}
+
+
 class Solution {
     public int lengthOfLongestSubstring(String s) {
 //  int maxans = 0;
