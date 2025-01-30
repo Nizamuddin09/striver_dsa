@@ -1,3 +1,25 @@
+without dummy optimal
+
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null) return null;
+        ListNode slow=head,fast=head;
+        for(int i=0;i<n;i++){
+            fast=fast.next;
+        }
+        if(fast==null)    //this means remove Head because n is head
+        {
+            return head.next;
+        }
+        while(fast.next!=null){   //reach previous node of nth node
+            fast=fast.next;
+            slow=slow.next;
+        }
+        slow.next=slow.next.next;
+        return head;
+    }
+}
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -23,5 +45,26 @@ class Solution {
         }
         slow.next=slow.next.next;
         return dummy.next;
+    }
+}
+
+recursion
+
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null) return null;
+        ListNode dummyNode=new ListNode(-1);
+        ListNode temp=dummyNode;
+        dummyNode.next=head;
+        removeNode(temp,n);
+        return dummyNode.next;
+    }
+    public int removeNode(ListNode head,int n){
+        if(head==null) return 1;
+        int count=removeNode(head.next,n);
+        if(count==n+1){
+            head.next=head.next.next;
+        } 
+        return count+1;
     }
 }
