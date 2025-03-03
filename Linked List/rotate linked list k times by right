@@ -1,3 +1,30 @@
+intuitive - 
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head==null | k==0) return head;
+        int len=0;
+        ListNode temp=head;
+        ListNode lastNode=null;
+        while(temp!=null){
+            if(temp.next==null){
+                lastNode=temp;
+            }
+            temp=temp.next;
+            len++;
+        }
+        lastNode.next=head;
+        temp=head;
+        k=k%len;
+        k=len-k-1;
+        while(k-->0){
+            temp=temp.next;
+        }
+        head=temp.next;
+        temp.next=null;
+        return head;
+    }
+}
+
 /**
  * Definition for singly-linked list.
  * public class ListNode {
